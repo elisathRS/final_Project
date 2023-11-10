@@ -4,7 +4,7 @@ Submitted by: **Mary Ramirez**
 
 This web app: **This website allows users to create posts about their pets for a pet photography contest, delete and update posts created by the user, sort all posts by newest and most popular, and search for a post by title.**
 
-Time spent: **10** hours spent in total
+Time spent: **15** hours spent in total
 
 ## Required Features
 

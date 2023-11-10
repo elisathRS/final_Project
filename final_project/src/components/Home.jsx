@@ -33,16 +33,12 @@ const Home = ({ userId }) => {
     <div className="page home">
       {fetchError && <p>{fetchError}</p>}
       <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search by title"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+        <input type="text"  placeholder="Search by title" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
         />
         <div className="order-by">
           <span>Order by:</span>
-          <button className="orderbyButton" onClick={() => setOrderBy("created_at")}>Newest</button>
-          <button className="orderbyButton" onClick={() => setOrderBy("upvotes")}>Most Popular</button>
+          <button className="orderby" onClick={() => setOrderBy("created_at")}>Newest</button>
+          <button className="orderby" onClick={() => setOrderBy("upvotes")}>Most Popular</button>
         </div>
       </div>
       {filteredPosts && (

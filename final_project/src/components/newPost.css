@@ -1,0 +1,62 @@
+.page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f2f2f2;
+  }
+  
+
+  .create-post-form {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+  }
+  
+
+  .create-post-form h2 {
+    font-size: 24px;
+    color: #333;
+    margin: 0 0 20px;
+  }
+  
+  .create-post-form label {
+    display: block;
+    margin: 10px 0;
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .create-post-form input,
+  .create-post-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .create-post-form button {
+    background-color: #0070cc;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .create-post-form button:hover {
+    background-color: #0058a4;
+  }
+  
+  .error {
+    color: #ff0000;
+    font-size: 14px;
+  }

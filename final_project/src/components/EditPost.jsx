@@ -15,11 +15,10 @@ const EditPost = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
-
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
-  const [formError, setFormError] = useState(null);
+  const [titlePost, setTitlePost] = useState("");
+  const [contentPost, setContentPost] = useState(undefined);
+  const [imageUrlPost, setImageUrlPost] = useState(undefined);
+  const [formErrorPost, setFormErrorPost] = useState(undefined);
 
 
   const handleAlert = () => {
@@ -34,76 +33,47 @@ const EditPost = () => {
     navigate("/");
   };
 
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!titlePost) {
+      setFormErrorPost("Please enter a title for the post (Name of your Pet)");
+      return;
+    }
+
+    const title = titlePost;
+    const content = contentPost;
+    const imageUrl = imageUrlPost;
+
+    const { data, err } = await supabase.from("Posts").update({ title, content, image_url: imageUrl }).eq("id", id);
+    err ? setFormErrorPost("Please enter a title.") : (setFormErrorPost(null), handleAlertAndNavigate());
+  };
+
   useEffect(() => {
     const fetchPost = async () => {
-      const { data, error } = await supabase.from("Posts").select().eq("id", id).single();
+      const { data, err } = await supabase.from("Posts").select().eq("id", id).single();
     
-      if (error) {
+      if (err) {
         navigate("/", { replace: true });
       }else {
-        console.log("data: ", data);
-        setTitle(data.title);
-        setContent(data.content);
-        setImageUrl(data.image_url);
-        
+        setTitlePost(data.title);
+        setContentPost(data.content);
+        setImageUrlPost(data.image_url);        
       }
     };
 
     fetchPost();
   }, [id, navigate]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!title) {
-      setFormError("Please enter a title");
-      return;
-    }
-
-    const { data, error } = await supabase
-      .from("Posts")
-      .update({ title, content, image_url: imageUrl })
-      .eq("id", id);
-
-    if (error) {
-      setFormError("Please enter a title.");
-    }
-    else{
-      setFormError(null);
-      handleAlertAndNavigate();
-    }
-  };
-
   return (
     <div className="page create">
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          id="title"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-
-        <textarea
-          id="content"
-          type="text"
-          placeholder="Content (Optional)"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-
-        <input
-          type="text"
-          id="image-url"
-          placeholder="Image URL (Optional)"
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
-        />
-
+        <input type="text" id="titlePost" placeholder="Title Post" value={titlePost} onChange={(e) => setTitlePost(e.target.value)}/>
+        <textarea type="text" id="contentPost" placeholder="Content (Optional)" value={contentPost || ''} onChange={(e) => setContentPost(e.target.value)}/>
+        <input type="text" id="image-url" placeholder="Image URL (Optional)" value={imageUrlPost|| ''} onChange={(e) => setImageUrlPost(e.target.value)}/>
         <button>Update Post</button>
-
-        {formError && <p className="error">{formError}</p>}
+        {formErrorPost && <p className="error">{formErrorPost}</p>}
       </form>
     </div>
   );

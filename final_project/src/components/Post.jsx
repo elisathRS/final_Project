@@ -75,22 +75,6 @@ const Post = ({ userId }) => {
     fetchPost();
   }, [id, navigate]);
 
-  const handleIncreaseUpvote = async () => {
-    setUpvotes((upvotes) => upvotes + 1);
-
-    const { data, error } = await supabase
-      .from("Posts")
-      .update({ upvotes: upvotes + 1 })
-      .eq("id", id);
-
-    if (data) {
-      console.log("data: ", data);
-    }
-    if (error) {
-      console.log("error: ", error);
-    }
-  };
-
   const formatDate = (postDate) => {
     let systemDate = new Date(Date.parse(postDate));
     let userDate = new Date();
@@ -106,11 +90,17 @@ const Post = ({ userId }) => {
     return "on " + systemDate;
   };
 
+  const handleIncreaseUpvote = async () => {
+    setUpvotes((upvotes) => upvotes + 1);
+    const { data, error } = await supabase.from("Posts").update({ upvotes: upvotes + 1 }).eq("id", id);
+    if (error) console.log("error: ", error);
+  };
+
+ 
   const handleDelete = async () => {
     const { data, error } = await supabase.from("Posts").delete().eq("id", id);
     error ? console.log("error: ", error) : navigate("/");
   };
-
 
     return (
       <div className="page">
@@ -141,11 +131,7 @@ const Post = ({ userId }) => {
                   </i>
                 </span>
               )}
-             {/* <Link to={"/Repost/" + id}>
-                <i className="material-icons" title="repost">
-                  reply
-                </i>
-              </Link>*/}
+      
             </div>
           </div>
           <Comment userId={userId} comments={comments} setComments={setComments} postId={id} />
